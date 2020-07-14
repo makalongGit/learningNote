@@ -1,19 +1,26 @@
+
 package main
 
-import "fmt"
+import (
+"fmt"
 
-func main1() {
-	x := []string{"a","b","c"}
-	for v:= range x{
-		fmt.Println(v)
-	}
-}
+"sync"
+)
 
+var num int64 = 0
+var max = 10000
+var wg sync.WaitGroup
 
-// 正确示例
 func main() {
-	x := []string{"a", "b", "c"}
-	for _, v := range x {    // 使用 _ 丢弃索引
-		fmt.Println(v)
+	wg.Add(2)
+	go addNum()
+	go addNum()
+	wg.Wait()
+	fmt.Printf("num=%d \n", num)
+}
+func addNum() {
+	for i := 0; i < max; i++ {
+		num++
 	}
+	wg.Done()
 }
